@@ -1,5 +1,9 @@
 # CK3 Modding LLM AutoTune
 
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPLv3-blue.svg)](LICENSE)
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10+-3776AB.svg?logo=python&logoColor=white)](https://python.org)
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-Support-ff5e5b.svg?logo=ko-fi&logoColor=white)](https://ko-fi.com/rezraa)
+
 Train a local LLM to natively understand CK3 modding — scope chains, trigger/effect logic, vanilla patterns — so it can write working mods without RAG or reference docs.
 
 ## Architecture
@@ -250,6 +254,10 @@ Cached at `~/.cache/ck3_modding_llm_autotune/data/` — not included in the repo
 ## Requirements
 
 Requires a licensed copy of [Crusader Kings III](https://store.steampowered.com/app/1158310/Crusader_Kings_III/). Training data is extracted from vanilla game files at runtime — no game assets are included in this repository.
+
+## Support
+
+If this project helped you, consider [buying me a coffee](https://ko-fi.com/rezraa). It keeps the project going.
 
 ## License
 

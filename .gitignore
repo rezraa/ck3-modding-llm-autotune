@@ -8,3 +8,4 @@ results.tsv
 run.log
 progress.png
 .env
+.claude/
