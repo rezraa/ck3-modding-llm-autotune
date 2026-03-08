@@ -48,8 +48,12 @@ CONTENT_TYPES = {
     "on_action": ["common/on_action"],
     "scripted_trigger": ["common/scripted_triggers"],
     "scripted_effect": ["common/scripted_effects"],
+    "scripted_modifier": ["common/scripted_modifiers"],
+    "scripted_rule": ["common/scripted_rules"],
+    "script_value": ["common/script_values"],
     "trait": ["common/traits"],
     "modifier": ["common/modifiers", "common/event_modifiers", "common/static_modifiers"],
+    "opinion_modifier": ["common/opinion_modifiers"],
     "casus_belli": ["common/casus_belli_types"],
     "culture": ["common/culture/cultures"],
     "faith": ["common/religion/religions"],
@@ -57,19 +61,135 @@ CONTENT_TYPES = {
     "activity": ["common/activities/activity_types"],
     "council_task": ["common/council_tasks"],
     "lifestyle": ["common/lifestyles"],
+    "focus": ["common/focuses"],
     "law": ["common/laws"],
     "building": ["common/buildings"],
+    "holding": ["common/holdings"],
     "men_at_arms": ["common/men_at_arms_types"],
     "court_position": ["common/court_positions"],
     "dynasty_legacy": ["common/dynasty_legacies"],
+    "dynasty_perk": ["common/dynasty_perks"],
     "innovation": ["common/culture/innovations"],
     "perk": ["common/lifestyle_perks"],
+    "faction": ["common/factions"],
+    "government": ["common/governments"],
+    "secret": ["common/secret_types"],
+    "story_cycle": ["common/story_cycles"],
+    "struggle": ["common/struggle"],
+    "legend": ["common/legends"],
+    "artifact": ["common/artifacts"],
+    "inspiration": ["common/inspirations"],
+    "travel": ["common/travel"],
+    "accolade": ["common/accolade_types"],
+    "succession_election": ["common/succession_election"],
+    "flavorization": ["common/flavorization"],
+    "nickname": ["common/nicknames"],
+    "hook_type": ["common/hook_types"],
+    "important_action": ["common/important_actions"],
+    "game_rule": ["common/game_rules"],
+    "bookmark": ["common/bookmarks"],
+    "vassal_stance": ["common/vassal_stances"],
+    "scripted_relation": ["common/scripted_relations"],
+    "character_template": ["common/scripted_character_templates"],
+    "customizable_loc": ["common/customizable_localization"],
+    # Large script content directories
+    "landed_title": ["common/landed_titles"],
+    "domicile": ["common/domiciles"],
+    "dynasty": ["common/dynasties"],
+    "dynasty_house": ["common/dynasty_houses"],
+    "task_contract": ["common/task_contracts"],
+    "great_project": ["common/great_projects"],
+    "character_memory": ["common/character_memory_types"],
+    "trigger_loc": ["common/trigger_localization"],
+    "effect_loc": ["common/effect_localization"],
+    "game_concept": ["common/game_concepts"],
+    "subject_contract": ["common/subject_contracts"],
+    "define": ["common/defines"],
+    "situation": ["common/situation"],
+    "house_aspiration": ["common/house_aspirations"],
+    "event_background": ["common/event_backgrounds"],
+    "event_theme": ["common/event_themes"],
+    "council_position": ["common/council_positions"],
+    "achievement": ["common/achievements"],
+    "diarchy": ["common/diarchies"],
+    "epidemic": ["common/epidemics"],
+    "courtier_guest": ["common/courtier_guest_management"],
+    "court_amenity": ["common/court_amenities"],
+    "legitimacy": ["common/legitimacy"],
+    "court_type": ["common/court_types"],
+    "scripted_cost": ["common/scripted_costs"],
+    "pool_selector": ["common/pool_character_selectors"],
+    "scripted_gui": ["common/scripted_guis"],
+    "raid": ["common/raids"],
+    "event_transition": ["common/event_transitions"],
+    "combat_effect": ["common/combat_effects"],
+    "scripted_list": ["common/scripted_lists"],
+    # Smaller but moddable
+    "succession_appointment": ["common/succession_appointment"],
+    "confederation": ["common/confederation_types"],
+    "combat_phase_event": ["common/combat_phase_events"],
+    "lease_contract": ["common/lease_contracts"],
+    "tax_slot": ["common/tax_slots"],
+    "house_unity": ["common/house_unities"],
+    "house_relation": ["common/house_relation_types"],
+    "death_reason": ["common/deathreasons"],
+    "guest_system": ["common/guest_system"],
+    "ai_war_stance": ["common/ai_war_stances"],
+    "message": ["common/messages"],
+    "suggestion": ["common/suggestions"],
+    # History (useful for scope patterns)
+    "history": ["history"],
+    # Visual/portrait script definitions (modders need valid names)
+    "coat_of_arms": ["common/coat_of_arms"],
+    "gene": ["common/genes"],
+    "portrait_modifier": ["common/portrait_modifiers"],
+    "portrait_type": ["common/portrait_types"],
+    "dna_data": ["common/dna_data"],
+    "ethnicity": ["common/ethnicities"],
+    "bookmark_portrait": ["common/bookmark_portraits"],
+    "graphical_unit": ["common/graphical_unit_types"],
+    "scripted_animation": ["common/scripted_animations"],
+    "modifier_icon": ["common/modifier_icons"],
+    "accolade_icon": ["common/accolade_icons"],
+    "accolade_name": ["common/accolade_names"],
+    "named_color": ["common/named_colors"],
+    "event_2d_effect": ["common/event_2d_effects"],
+    # Grouping/category definitions (referenced by other script)
+    "decision_group": ["common/decision_group_types"],
+    "interaction_category": ["common/character_interaction_categories"],
+    "character_background": ["common/character_backgrounds"],
+    "casus_belli_group": ["common/casus_belli_groups"],
+    "ai_goaltype": ["common/ai_goaltypes"],
+    "dynasty_house_motto": ["common/dynasty_house_mottos", "common/dynasty_house_motto_inserts"],
+    "tutorial": ["common/tutorial_lessons", "common/tutorial_lesson_chains"],
+    "modifier_format": ["common/modifier_definition_formats"],
+    "message_filter": ["common/message_filter_types", "common/message_group_types"],
+    "province_terrain": ["common/province_terrain", "common/terrain_types"],
+    "playable_difficulty": ["common/playable_difficulty_infos"],
+    "ruler_objective": ["common/ruler_objective_advice_types"],
+    "connection_arrow": ["common/connection_arrows"],
+    "console_group": ["common/console_groups"],
+    # GFX script definitions (court scenes, CoA, portraits — all Paradox script)
+    "gfx": ["gfx"],
+    # GUI widget/layout definitions (Paradox UI scripting language)
+    "gui": ["gui"],
+    # Sound/music script definitions
+    "sound_def": ["sound"],
+    "music_def": ["music"],
+    "font_def": ["fonts"],
 }
 
-# Directories to skip entirely
-SKIP_DIRS = {"gfx", "gui", "fonts", "music", "sound", "dlc", "tools",
-             "content_source", "map_data", "common/coat_of_arms",
-             "common/genes", "common/portrait_modifiers"}
+# File extensions to extract (Paradox script files)
+SCRIPT_EXTENSIONS = {".txt", ".gui", ".asset", ".csv", ".shader", ".fxh",
+                     ".skin", ".font", ".map", ".shortcuts"}
+
+# Logs directory (engine-generated documentation)
+LOGS_PATH = Path(os.path.expanduser("~")) / "Documents" / "Paradox Interactive" / "Crusader Kings III" / "logs"
+
+# Directories to skip entirely (no script content at all)
+SKIP_DIRS = {"dlc", "tools", "content_source", "data_binding",
+             "licenses", "dlc_metadata", "tweakergui_assets", "tests",
+             "notifications", "reader_export"}
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -178,11 +298,14 @@ def load_localization(lang: str = "english") -> dict[str, str]:
 # ---------------------------------------------------------------------------
 
 def build_raw_corpus() -> int:
-    """Extract every relevant .txt script file into raw_corpus.jsonl."""
+    """Extract every relevant script file (.txt, .gui) into raw_corpus.jsonl."""
     output_file = os.path.join(DATA_DIR, "raw_corpus.jsonl")
     count = 0
 
-    all_files = sorted(VANILLA_PATH.rglob("*.txt"))
+    all_files = sorted(
+        f for ext in SCRIPT_EXTENSIONS
+        for f in VANILLA_PATH.rglob(f"*{ext}")
+    )
 
     with open(output_file, 'w', encoding='utf-8') as f:
         for file_path in all_files:
@@ -219,7 +342,7 @@ def build_raw_corpus() -> int:
 # ---------------------------------------------------------------------------
 
 def build_structured_blocks() -> int:
-    """Parse top-level blocks from categorized script files."""
+    """Parse top-level blocks from categorized script files (.txt, .gui)."""
     output_file = os.path.join(DATA_DIR, "structured_blocks.jsonl")
     count = 0
 
@@ -229,7 +352,10 @@ def build_structured_blocks() -> int:
                 dir_path = VANILLA_PATH / subdir
                 if not dir_path.exists():
                     continue
-                for file_path in sorted(dir_path.rglob("*.txt")):
+                for file_path in sorted(
+                    f for ext in SCRIPT_EXTENSIONS
+                    for f in dir_path.rglob(f"*{ext}")
+                ):
                     try:
                         text = file_path.read_text(encoding='utf-8-sig', errors='replace')
                     except Exception:
@@ -278,12 +404,61 @@ INSTRUCTION_TEMPLATES = {
     "scripted_effect": [
         "Write a CK3 scripted effect called '{name}'",
     ],
+    "scripted_modifier": [
+        "Write a CK3 scripted modifier called '{name}'",
+    ],
+    "scripted_rule": [
+        "Write a CK3 scripted rule called '{name}'",
+    ],
+    "script_value": [
+        "Write a CK3 script value called '{name}'",
+        "Define the CK3 script value '{name}'",
+    ],
     "trait": [
         "Define a CK3 trait called '{name}'",
         "Write the CK3 trait definition for '{name}' that {loc_desc}",
     ],
     "on_action": [
         "Write a CK3 on_action hook called '{name}'",
+    ],
+    "faction": [
+        "Write a CK3 faction type called '{name}'",
+    ],
+    "government": [
+        "Write a CK3 government type called '{name}'",
+    ],
+    "holding": [
+        "Write a CK3 holding type called '{name}'",
+    ],
+    "focus": [
+        "Write a CK3 lifestyle focus called '{name}'",
+    ],
+    "story_cycle": [
+        "Write a CK3 story cycle called '{name}'",
+    ],
+    "struggle": [
+        "Write a CK3 struggle definition called '{name}'",
+    ],
+    "legend": [
+        "Write a CK3 legend type called '{name}'",
+    ],
+    "artifact": [
+        "Write a CK3 artifact definition called '{name}'",
+    ],
+    "secret": [
+        "Write a CK3 secret type called '{name}'",
+    ],
+    "succession_election": [
+        "Write a CK3 succession election type called '{name}'",
+    ],
+    "opinion_modifier": [
+        "Write a CK3 opinion modifier called '{name}'",
+    ],
+    "character_template": [
+        "Write a CK3 scripted character template called '{name}'",
+    ],
+    "scripted_relation": [
+        "Write a CK3 scripted relation called '{name}'",
     ],
 }
 
@@ -425,6 +600,170 @@ def build_loc_pairs() -> int:
             count += 1
 
     print(f"  Generated {count:,} loc pairs -> {output_file}")
+    return count
+
+
+# ---------------------------------------------------------------------------
+# Stage 6: Engine reference data (logs + data_types)
+# ---------------------------------------------------------------------------
+
+def parse_log_entries(text: str) -> list[dict]:
+    """Parse a CK3 engine log file into structured entries.
+    Format: entries separated by '--------------------' lines.
+    """
+    entries = []
+    current_lines = []
+    for line in text.split('\n'):
+        if line.strip().startswith('----'):
+            if current_lines:
+                content = '\n'.join(current_lines).strip()
+                if content:
+                    entries.append(content)
+            current_lines = []
+        else:
+            current_lines.append(line)
+    if current_lines:
+        content = '\n'.join(current_lines).strip()
+        if content:
+            entries.append(content)
+    return entries
+
+
+def parse_data_type_entries(text: str) -> list[dict]:
+    """Parse data_types files into structured entries.
+    Format: entries separated by '-----------------------' lines.
+    """
+    entries = []
+    current_lines = []
+    for line in text.split('\n'):
+        if line.strip().startswith('-----'):
+            if current_lines:
+                content = '\n'.join(current_lines).strip()
+                if content:
+                    entries.append(content)
+            current_lines = []
+        else:
+            current_lines.append(line)
+    if current_lines:
+        content = '\n'.join(current_lines).strip()
+        if content:
+            entries.append(content)
+    return entries
+
+
+def build_engine_reference() -> int:
+    """
+    Ingest CK3 engine-generated logs and data_types as reference training data.
+    These contain the authoritative documentation for effects, triggers, scopes,
+    on_actions, modifiers, event targets, and the complete type system.
+    """
+    output_file = os.path.join(DATA_DIR, "engine_reference.jsonl")
+    count = 0
+
+    # Log files to ingest (name -> category for instruction pairs)
+    log_files = {
+        "effects.log": "effect_reference",
+        "triggers.log": "trigger_reference",
+        "on_actions.log": "on_action_reference",
+        "modifiers.log": "modifier_reference",
+        "event_scopes.log": "scope_reference",
+        "event_targets.log": "event_target_reference",
+        "custom_localization.log": "custom_loc_reference",
+    }
+
+    system_msg = (
+        "You are a CK3 modding expert. You have deep knowledge of the CK3 script engine, "
+        "including all effects, triggers, scopes, and their valid usage patterns."
+    )
+
+    with open(output_file, 'w', encoding='utf-8') as f:
+        # Process log files
+        for log_name, category in log_files.items():
+            log_path = LOGS_PATH / log_name
+            if not log_path.exists():
+                continue
+            try:
+                text = log_path.read_text(encoding='utf-8-sig', errors='replace')
+            except Exception as e:
+                print(f"  Skipping {log_name}: {e}")
+                continue
+
+            if len(text.strip()) == 0:
+                continue
+
+            entries = parse_log_entries(text)
+            for entry in entries:
+                if len(entry) < 10:
+                    continue
+
+                # Extract the name (first word or first line)
+                first_line = entry.split('\n')[0].strip()
+                name = first_line.split(' - ')[0].split(':')[0].strip()
+
+                # Create instruction pair for the entry
+                if "effect" in category:
+                    instruction = f"What does the CK3 effect '{name}' do? What scopes does it support?"
+                elif "trigger" in category:
+                    instruction = f"What does the CK3 trigger '{name}' do? What scopes does it support?"
+                elif "on_action" in category:
+                    instruction = f"Describe the CK3 on_action '{name}'. What scope does it expect?"
+                elif "modifier" in category:
+                    instruction = f"What is the CK3 modifier '{name}'?"
+                elif "scope" in category:
+                    instruction = f"Describe the CK3 scope type '{name}' and its capabilities."
+                elif "event_target" in category:
+                    instruction = f"What is the CK3 event target '{name}'?"
+                elif "custom_loc" in category:
+                    instruction = f"Describe the CK3 custom localization '{name}'."
+                else:
+                    instruction = f"Describe the CK3 engine element '{name}'."
+
+                record = {
+                    "system": system_msg,
+                    "instruction": instruction,
+                    "completion": entry,
+                    "category": category,
+                    "name": name,
+                    "source_file": f"logs/{log_name}",
+                }
+                f.write(json.dumps(record, ensure_ascii=False) + '\n')
+                count += 1
+
+            print(f"  {log_name}: {len(entries):,} entries")
+
+        # Process data_types files
+        data_types_dir = LOGS_PATH / "data_types"
+        if data_types_dir.exists():
+            for dt_file in sorted(data_types_dir.glob("*.txt")):
+                try:
+                    text = dt_file.read_text(encoding='utf-8-sig', errors='replace')
+                except Exception:
+                    continue
+
+                entries = parse_data_type_entries(text)
+                dt_name = dt_file.stem  # e.g. "data_types_script"
+
+                for entry in entries:
+                    if len(entry) < 10:
+                        continue
+
+                    first_line = entry.split('\n')[0].strip()
+                    name = first_line.split('(')[0].strip()
+
+                    record = {
+                        "system": system_msg,
+                        "instruction": f"What is the CK3 engine type or function '{name}'? What does it return?",
+                        "completion": entry,
+                        "category": "data_type",
+                        "name": name,
+                        "source_file": f"logs/data_types/{dt_file.name}",
+                    }
+                    f.write(json.dumps(record, ensure_ascii=False) + '\n')
+                    count += 1
+
+                print(f"  {dt_file.name}: {len(entries):,} entries")
+
+    print(f"  Generated {count:,} engine reference entries -> {output_file}")
     return count
 
 
@@ -575,9 +914,10 @@ def load_instruction_dataset() -> tuple[list[dict], list[dict]]:
     """
     pairs_file = os.path.join(DATA_DIR, "instruction_pairs.jsonl")
     loc_file = os.path.join(DATA_DIR, "loc_pairs.jsonl")
+    engine_file = os.path.join(DATA_DIR, "engine_reference.jsonl")
 
     records = []
-    for filepath in [pairs_file, loc_file]:
+    for filepath in [pairs_file, loc_file, engine_file]:
         if os.path.exists(filepath):
             with open(filepath, 'r', encoding='utf-8') as f:
                 for line in f:
@@ -630,7 +970,7 @@ def print_stats():
     """Print dataset statistics."""
     print("\nDataset Statistics:")
     print("=" * 60)
-    for name in ["raw_corpus", "structured_blocks", "instruction_pairs", "loc_pairs", "clm_dataset"]:
+    for name in ["raw_corpus", "structured_blocks", "instruction_pairs", "loc_pairs", "clm_dataset", "engine_reference"]:
         filepath = os.path.join(DATA_DIR, f"{name}.jsonl")
         if os.path.exists(filepath):
             with open(filepath, 'r', encoding='utf-8') as f:
@@ -670,6 +1010,7 @@ if __name__ == "__main__":
     print("CK3 Modding LLM AutoTune - Data Preparation")
     print("=" * 60)
     print(f"Vanilla path: {VANILLA_PATH}")
+    print(f"Logs path:    {LOGS_PATH}")
     print(f"Cache dir:    {CACHE_DIR}")
     print()
 
@@ -677,24 +1018,32 @@ if __name__ == "__main__":
         print(f"ERROR: Vanilla game path not found: {VANILLA_PATH}")
         sys.exit(1)
 
-    print("[1/5] Extracting raw corpus...")
+    print("[1/6] Extracting raw corpus...")
     build_raw_corpus()
     print()
 
-    print("[2/5] Extracting structured blocks...")
+    print("[2/6] Extracting structured blocks...")
     build_structured_blocks()
     print()
 
-    print("[3/5] Building instruction pairs...")
+    print("[3/6] Building instruction pairs...")
     build_instruction_pairs()
     print()
 
-    print("[4/5] Building CLM dataset...")
+    print("[4/6] Building CLM dataset...")
     build_clm_dataset()
     print()
 
-    print("[5/5] Building localization pairs...")
+    print("[5/6] Building localization pairs...")
     build_loc_pairs()
+    print()
+
+    print("[6/6] Building engine reference data...")
+    if LOGS_PATH.exists():
+        build_engine_reference()
+    else:
+        print(f"  Skipped: logs directory not found at {LOGS_PATH}")
+        print(f"  Launch CK3 once to generate engine logs, then re-run prepare.py")
     print()
 
     print_stats()
