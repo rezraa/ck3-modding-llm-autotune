@@ -4,129 +4,76 @@ Train a local LLM to natively understand CK3 modding — scope chains, trigger/e
 
 ## Architecture
 
+```mermaid
+flowchart TD
+    A[CK3 Game Files] -->|prepare.py| B[Training Datasets]
+
+    B --> C
+
+    subgraph C [train.py]
+        direction TB
+        C1[Load model 4-bit] --> C2[Apply LoRA rank 128]
+        C2 --> C3[Train SFT + CLM mix]
+        C3 --> C4[Save LoRA adapter]
+        C4 --> C5[Eval on 8 CK3 prompts in-memory]
+        C5 --> C6[metrics.json + val_score]
+    end
+
+    C6 --> D1 & D2 & D3
+
+    D1[Sweep Mode ~8 hrs]
+    D2[Agent Mode ~5 min/iter]
+    D3[Manual Mode]
+
+    D1 & D2 & D3 --> E[results.tsv]
+
+    E -->|best config + long train| F[LoRA Adapter]
+
+    F -->|export.py| G[GGUF Model for LM Studio]
 ```
-                    ┌──────────────────────────────────────┐
-                    │          CK3 Game Files               │
-                    │   ~4,000 files  ·  ~400K lines        │
-                    └────────────────┬─────────────────────┘
-                                     │
-                                prepare.py          ◄── run once (~2 min)
-                                     │
-                    ┌────────────────▼─────────────────────┐
-                    │        Training Datasets              │
-                    │                                       │
-                    │  instruction_pairs.jsonl   (32K SFT)  │
-                    │  clm_dataset.jsonl         (CLM)      │
-                    │  loc_pairs.jsonl           (loc)      │
-                    │  structured_blocks.jsonl   (blocks)   │
-                    │  raw_corpus.jsonl          (raw)      │
-                    └────────────────┬─────────────────────┘
-                                     │
-                                     ▼
-              ┌──────────────────────────────────────────────────┐
-              │                   train.py                       │
-              │                                                  │
-              │   Load model (4-bit) ──► Apply LoRA (rank 128)   │
-              │          │                                       │
-              │          ▼                                       │
-              │   Train on datasets (SFT + CLM mix)              │
-              │   TimeBudgetCallback stops at time limit         │
-              │          │                                       │
-              │          ▼                                       │
-              │   Save LoRA adapter                              │
-              │          │                                       │
-              │          ▼                                       │
-              │   Evaluate IN-PROCESS on 8 CK3 prompts           │
-              │   (model still in GPU memory — no GGUF needed)   │
-              │          │                                       │
-              │          ▼                                       │
-              │   Output: metrics.json + val_score               │
-              └──────────────────┬───────────────────────────────┘
-                                 │
-            ┌────────────────────┼────────────────────┐
-            │                    │                    │
-   ┌────────▼────────┐  ┌───────▼────────┐  ┌───────▼────────┐
-   │   Sweep Mode    │  │  Agent Mode    │  │  Manual Mode   │
-   │                 │  │               │  │                │
-   │  sweep.py runs  │  │  Claude edits  │  │  You run       │
-   │  train.py 96x   │  │  train.py,    │  │  train.py      │
-   │  as subprocess  │  │  calls sweep  │  │  directly      │
-   │  with different │  │  MCP tools    │  │                │
-   │  configs        │  │               │  │                │
-   │                 │  │               │  │                │
-   │  ~8 hrs         │  │  ~5 min/iter  │  │  5m or --long  │
-   └────────┬────────┘  └───────┬────────┘  └───────┬────────┘
-            │                    │                    │
-            └────────────────────┼────────────────────┘
-                                 │
-                    ┌────────────▼─────────────────────┐
-                    │         results.tsv               │
-                    │  val_score · syntax · keyword     │
-                    │  structure · config · elapsed     │
-                    └────────────┬─────────────────────┘
-                                 │
-                        Pick best config,
-                     train.py --long --resume
-                          (~8 hours)
-                                 │
-                    ┌────────────▼─────────────────────┐
-                    │     LoRA Adapter (~930MB)         │
-                    │     output/lora_adapter/          │
-                    └────────────┬─────────────────────┘
-                                 │
-                            export.py               ◄── deployment only
-                        (merge LoRA into base,          (not part of
-                         quantize full model)            training/eval)
-                                 │
-                    ┌────────────▼─────────────────────┐
-                    │     Full GGUF Model (~5-9GB)      │
-                    │  q4_k_m · q5_k_m · q8_0 · f16    │
-                    │                                   │
-                    │     Load in LM Studio             │
-                    └──────────────────────────────────┘
-```
+
+- **CK3 Game Files**: ~4,000 files, ~400K lines
+- **Training Datasets**: instruction_pairs (32K SFT), clm_dataset (CLM), loc_pairs, structured_blocks, raw_corpus
+- **Sweep Mode**: sweep.py runs train.py 96x with different configs
+- **Agent Mode**: Claude edits train.py, calls sweep MCP tools
+- **Manual Mode**: run train.py directly (5 min or `--long`)
 
 ## Key Concept: Eval uses the in-memory model, not GGUF
 
-```
-  Training & Evaluation (train.py)           Deployment (export.py)
-  ──────────────────────────────────         ─────────────────────────
+```mermaid
+flowchart LR
+    subgraph left [Training and Eval - train.py]
+        direction TB
+        L1[Base model 4-bit] --> L2[Apply LoRA]
+        L2 --> L3[Train on CK3 data]
+        L3 --> L4[Generate in memory]
+        L4 --> L5[Score with val_score]
+    end
 
-  Base model (4-bit on GPU)                  Base model
-       │                                          │
-       ▼                                          ▼
-  LoRA adapter applied                       Merge LoRA weights
-       │                                          │
-       ▼                                          ▼
-  Train on CK3 data                          Quantize full model
-       │                                          │
-       ▼                                          ▼
-  Generate from model IN MEMORY              Export .gguf file
-       │                                          │
-       ▼                                          ▼
-  Score with val_score metric                Load in LM Studio
-  (syntax + keyword + structure)             for interactive use
-
-  This is what matters for                   This is just packaging.
-  experiment iteration.                      Run once at the end.
+    subgraph right [Deployment - export.py]
+        direction TB
+        R1[Base model] --> R2[Merge LoRA weights]
+        R2 --> R3[Quantize full model]
+        R3 --> R4[Export .gguf]
+        R4 --> R5[Load in LM Studio]
+    end
 ```
+
+Training & eval is what matters for iteration. Deployment is just packaging — run once at the end.
 
 ## Execution Flow
 
+```mermaid
+flowchart LR
+    A[prepare.py\n~2 min] --> B[sweep.py\n~8 hrs]
+    B --> C[train.py --long\n~8 hrs]
+    C --> D[export.py\n~30 min]
 ```
- STEP 1                STEP 2                    STEP 3               STEP 4
- ──────                ──────                    ──────               ──────
 
- prepare.py    ──►     sweep.py          ──►     train.py     ──►    export.py
- Extract CK3           Runs train.py as          Deep train           Merge LoRA
- game data             subprocess 96x            best config          into base,
- into 5 dataset        with different            8-hour run           quantize to
- files                 configs via env var        with --long          GGUF
-
- Run once.             Run overnight.            Run once.            Run once.
- ~2 minutes            ~8 hours                  ~8 hours             ~30 minutes
-                       (96 x 5 min each)
-```
+1. **prepare.py** — Extract CK3 game data into 5 dataset files (run once)
+2. **sweep.py** — Run train.py 96x with different configs (run overnight)
+3. **train.py --long** — Deep train the best config
+4. **export.py** — Merge LoRA into base, quantize to GGUF (run once)
 
 ## Quick start
 
@@ -268,21 +215,25 @@ ck3-modding-llm-autotune/
 
 ## Data pipeline
 
+```mermaid
+flowchart TD
+    A[Vanilla CK3 game files] --> B[prepare.py]
+    B --> C[instruction_pairs.jsonl]
+    B --> D[clm_dataset.jsonl]
+    B --> E[loc_pairs.jsonl]
+    B --> F[structured_blocks.jsonl]
+    B --> G[raw_corpus.jsonl]
 ```
-Vanilla CK3 game files
-        │
-        ▼
-   prepare.py
-        │
-        ├──► instruction_pairs.jsonl   32K (instruction, completion) for SFT
-        ├──► clm_dataset.jsonl         Continued pretraining documents
-        ├──► loc_pairs.jsonl           Localization pattern examples
-        ├──► structured_blocks.jsonl   Individual parsed blocks
-        └──► raw_corpus.jsonl          Every script file as raw text
 
-Cached at ~/.cache/ck3_modding_llm_autotune/data/
-Not included in the repo.
-```
+| Dataset | Contents |
+|---------|----------|
+| instruction_pairs.jsonl | 32K instruction/completion pairs for SFT |
+| clm_dataset.jsonl | Continued pretraining documents |
+| loc_pairs.jsonl | Localization pattern examples |
+| structured_blocks.jsonl | Individual parsed blocks |
+| raw_corpus.jsonl | Every script file as raw text |
+
+Cached at `~/.cache/ck3_modding_llm_autotune/data/` — not included in the repo.
 
 ## Output
 
