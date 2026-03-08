@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.pyo
+unsloth_compiled_cache/
+.venv/
+*.egg-info/
+results.tsv
+run.log
+progress.png
+.env
